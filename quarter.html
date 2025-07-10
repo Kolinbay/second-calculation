@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quarterly Request</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            padding: 25px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        header img {
+            height: 60px;
+            display: block;
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 1.6rem;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        .readonly {
+            background: #f1f5f9;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: #222;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .form-container {
+                padding: 20px 15px;
+            }
+
+            header {
+                flex-direction: row;
+                justify-content: center;
+                text-align: center;
+            }
+
+            header h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <header>
+            <img src="KD LogoK.png" alt="Logo" />
+            <h2>Quarterly Request</h2>
+        </header>
+
+        <label for="consumption">A. Total Consumption From Last Three Months</label>
+        <input type="number" id="consumption" placeholder="Enter value..." />
+
+        <label for="balance">B. Current Remaining Balance</label>
+        <input type="number" id="balance" placeholder="Enter value..." />
+
+        <label>C. Monthly Consumption is</label>
+        <div id="monthlyConsumption" class="readonly">0</div>
+
+        <label>D. Ten Percent of Consumed</label>
+        <div id="percentConsumed" class="readonly">0</div>
+
+        <label>E. Leading Time for One More Month</label>
+        <div id="leadingTime" class="readonly">0</div>
+
+        <label>F. Next Request</label>
+        <div id="nextRequest" class="readonly">0</div>
+
+        <label>G. Final Request</label>
+        <div id="finalRequest" class="readonly highlight">0</div>
+
+        <a href="index.html" class="back-button">← Back to Home</a>
+    </div>
+
+    <script>
+        const A_input = document.getElementById("consumption");
+        const B_input = document.getElementById("balance");
+
+        const C_display = document.getElementById("monthlyConsumption");
+        const D_display = document.getElementById("percentConsumed");
+        const E_display = document.getElementById("leadingTime");
+        const F_display = document.getElementById("nextRequest");
+        const G_display = document.getElementById("finalRequest");
+
+        function calculate() {
+            const A = parseFloat(A_input.value) || 0;
+            const B = parseFloat(B_input.value) || 0;
+
+            const C = A / 3;
+            const D = A / 10;
+            const E = D / 3;
+            const F = A + D + E;
+            const G = F - B;
+
+            C_display.textContent = C.toFixed(2);
+            D_display.textContent = D.toFixed(2);
+            E_display.textContent = E.toFixed(2);
+            F_display.textContent = F.toFixed(2);
+            G_display.textContent = G.toFixed(2);
+        }
+
+        A_input.addEventListener("input", calculate);
+        B_input.addEventListener("input", calculate);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lead Time Request Calculator</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .calculator {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        header img {
+            height: 50px;
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            margin-top: 12px;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .output {
+            background: #eaf4ff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 5px solid #2e86de;
+            border-radius: 6px;
+            color: #222;
+            font-weight: 500;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <header>
+            <img src="KD LogoK.png" alt="Logo" />
+            <h2>Request for 6 Months</h2>
+        </header>
+
+        <!-- Six Month Consumption Input -->
+        <label for="sixMonthConsumption">Total Consumption for Six Months</label>
+        <input type="number" id="sixMonthConsumption" placeholder="Enter total consumed from previous 6 months" />
+
+        <!-- Remaining Balance Input -->
+        <label for="remainingBalance">Currently Remaining Balance</label>
+        <input type="number" id="remainingBalance" placeholder="Enter current stock" />
+
+        <!-- Output Fields -->
+        <div class="output" id="tenPercent">10% of 6 Months Consumption: -</div>
+        <div class="output" id="leadTime">Two Months Leading Time : -</div>
+        <div class="output" id="requestAmount">Request Amount: -</div>
+        <div class="output" id="finalRequest">Final Request: -</div>
+
+        <a href="index.html" class="back-button">← Back to Home</a>
+    </div>
+
+    <script>
+        const sixMonthInput = document.getElementById('sixMonthConsumption');
+        const remainingInput = document.getElementById('remainingBalance');
+
+        const tenPercentOutput = document.getElementById('tenPercent');
+        const leadTimeOutput = document.getElementById('leadTime');
+        const requestAmountOutput = document.getElementById('requestAmount');
+        const finalRequestOutput = document.getElementById('finalRequest');
+
+        function calculate() {
+            const sixMonth = parseFloat(sixMonthInput.value) || 0;
+            const remaining = parseFloat(remainingInput.value) || 0;
+
+            const tenPercent = sixMonth / 10;
+            const leadTime = (tenPercent / 6) * 2;
+            const requestAmount = sixMonth + tenPercent + leadTime;
+            const finalRequest = requestAmount - remaining;
+
+            tenPercentOutput.textContent = `10% of 6 Months Consumption: ${tenPercent.toFixed(2)}`;
+            leadTimeOutput.textContent = `Lead Time: ${leadTime.toFixed(2)}`;
+            requestAmountOutput.textContent = `Request Amount: ${requestAmount.toFixed(2)}`;
+            finalRequestOutput.textContent = `Final Request: ${finalRequest.toFixed(2)}`;
+        }
+
+        sixMonthInput.addEventListener('input', calculate);
+        remainingInput.addEventListener('input', calculate);
+    </script>
+</body>
+
+</html>
