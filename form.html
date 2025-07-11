@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Request Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/heroicons@2.0.16/dist/24/outline/heroicons.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 3px;
+        }
+
+        .container {
+            background: white;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5px;
+        }
+
+        .logo {
+            width: 150px;
+            height: 100px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            /* background: linear-gradient(45deg, #8B4513, #D2691E); */
+            padding-left: 2px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .header-text {
+            text-align: center;
+            flex: 1;
+        }
+
+        .header-text h1 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .contact-info {
+            font-size: 13px;
+            color: #494949;
+            line-height: 1.4;
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0;
+            text-decoration: underline;
+        }
+
+        .form-info {
+            margin-bottom: 5px;
+            line-height: 1.6;
+        }
+
+        .form-info div {
+            margin-bottom: 5px;
+        }
+
+        .underline {
+            border-bottom: 1px solid #000;
+            display: inline-block;
+            min-width: 150px;
+            margin-left: 10px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 4px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            font-size: 9px;
+        }
+
+        /* Left-align columns C and D */
+        .col-code,
+        .col-name {
+            text-align: left !important;
+        }
+
+        .col-no {
+            width: 4%;
+        }
+
+        .col-code {
+            width: 8%;
+        }
+
+        .col-name {
+            width: 25%;
+        }
+
+        .col-unit {
+            width: 8%;
+        }
+
+        .col-avg {
+            width: 8%;
+        }
+
+        .col-stock {
+            width: 8%;
+        }
+
+        .col-extra {
+            width: 8%;
+        }
+
+        .col-extra2 {
+            width: 8%;
+        }
+
+        .col-requested {
+            width: 10%;
+        }
+
+        .col-remark {
+            width: 13%;
+        }
+
+        .signature-section {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .signature-block {
+            padding: 5px;
+            min-height: 120px;
+        }
+
+        .signature-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid #000;
+            margin: 10px 0;
+            height: 20px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 0 10px;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            background: #f1f1f1;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: none;
+                box-shadow: none;
+                padding: 20px;
+                margin: 0;
+            }
+
+            .controls {
+                display: none;
+            }
+
+            .header {
+                margin-bottom: 10px;
+                padding-bottom: 8px;
+            }
+
+            .logo {
+                width: 80px;
+                height: 30px;
+                margin-right: 15px;
+                border-width: 2px;
+            }
+
+            .header-text h1 {
+                font-size: 20px;
+                margin-bottom: 3px;
+            }
+
+            .header-text h1 span {
+                font-size: 14px !important;
+            }
+
+            .contact-info {
+                font-size: 8px;
+                line-height: 1.2;
+            }
+
+            .form-title {
+                font-size: 14px;
+                margin: 8px 0;
+            }
+
+            .form-info {
+                margin-bottom: 5px;
+                font-size: 10px;
+                line-height: 1.3;
+            }
+
+            .form-info div {
+                margin-bottom: 3px;
+            }
+
+            table {
+                font-size: 8px;
+            }
+
+            th,
+            td {
+                padding: 2px;
+            }
+
+            th {
+                font-size: 7px;
+            }
+
+            .signature-section {
+                margin-top: 10px;
+                gap: 20px;
+            }
+
+            .signature-block {
+                padding: 8px;
+                min-height: 60px;
+                font-size: 9px;
+            }
+
+            .signature-block div {
+                margin-bottom: 5px;
+            }
+
+            .signature-title {
+                margin-bottom: 5px;
+            }
+
+            /* Keep columns C and D left-aligned in print */
+            .col-unit,
+            .col-name {
+                text-align: left !important;
+            }
+        }
+
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .logo {
+                margin: 0 0 15px 0;
+            }
+
+            .header-text h1 {
+                font-size: 24px;
+            }
+
+            .contact-info {
+                font-size: 11px;
+            }
+
+            table {
+                font-size: 8px;
+            }
+
+            th,
+            td {
+                padding: 2px;
+            }
+
+            .signature-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            /* Keep columns C and D left-aligned on mobile */
+            .col-code,
+            .col-name {
+                text-align: left !important;
+            }
+        }
+
+        /* A4 Landscape specific styles */
+        @page {
+            size: A4 landscape;
+            margin: 20px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="controls">
+        <button class="btn" onclick="downloadPDF()">Download PDF</button>
+        <button class="btn btn-danger" onclick="clearForm()">Clear Form</button>
+    </div>
+
+    <div class="container" id="form-content">
+        <div class="header">
+            <div class="logo">
+                <img src="KD LogoK.jpg" alt="Logo">
+            </div>
+            <div class="header-text">
+                <h1>KDHW <span style="font-size: 16px;">KAREN DEPARTMENT OF HEALTH AND WELFARE</span></h1>
+                <div class="contact-info">
+                    Mobile Phone : 0817584984/ 0801359232/ 0973215011 <br>
+                    Email: kdhwnetwork@gmail.com / diamondsaw@hotmail.com / sawwahrt.kdhw@gmail.com /<br>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-title">Medical Request Form</div>
+
+        <div class="form-info">
+            <div><strong>Department:</strong> Karen Department of Health and Welfare</div>
+            <div><strong>Name of Clinic/IDPs:</strong> <span class="underline" contenteditable="true"></span></div>
+            <div><strong>Period of Drug consumption:</strong> From<span class="underline"
+                    contenteditable="true"></span>(M)To<span class="underline" contenteditable="true"></span>(M)<span
+                    class="underline" contenteditable="true"></span>(Y)</div>
+            <div><strong>Date:</strong> <span class="underline" contenteditable="true"></span></div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="col-no">No.</th>
+                        <th rowspan="2">Code</th>
+                        <th rowspan="2" class="col-name">Name of Items/Description</th>
+                        <th rowspan="2" class="col-unit">Accounting Unit</th>
+                        <th rowspan="2" class="col-avg">Average Monthly Consumption</th>
+                        <th rowspan="2" class="col-stock">Stock Balance</th>
+                        <th rowspan="2" class="col-extra">2 more month Extra</th>
+                        <th rowspan="2" class="col-extra2">10% extra</th>
+                        <th rowspan="2" class="col-requested">Request Amount</th>
+                        <th rowspan="2" class="col-remark">Remark</th>
+                    </tr>
+                    <tr></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true" class="col-name"></td>
+                        <td contenteditable="true" class="col-unit"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="signature-section">
+            <div class="signature-block">
+                <div class="signature-title">Requested by:</div>
+                <div style="margin: 3px 0;"><br><br>
+                    <div style="margin-bottom: 5px;">Signature: <span class="underline" contenteditable="true"></span>
+                    </div>
+                    <div style="margin-bottom: 5px;">Name: <span class="underline" contenteditable="true"></span></div>
+                    <div style="margin-bottom: 5px;">Position: <span class="underline" contenteditable="true"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="signature-block">
+                <div class="signature-title">Approved by:</div>
+                <div style="margin: 3px 0;"> <br><br>
+                    <div style="margin-bottom: 5px;">Signature: <span class="underline" contenteditable="true"></span>
+                    </div>
+                    <div style="margin-bottom: 5px;">Name: <span class="underline" contenteditable="true"></span></div>
+                    <div style="margin-bottom: 5px;">Position: <span class="underline" contenteditable="true"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="index.html" class="back-button">← Back to Home</a>
+    </div>
+    <footer>
+        &copy; 2025 KDHW Pharmacy - Mr.Dtacer Lin. All rights reserved.
+    </footer>
+
+    <script>
+        function downloadPDF() {
+            const element = document.getElementById('form-content');
+            const opt = {
+                margin: [1, 20, 1, 20],
+                filename: 'medical_request_form.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 1.5,
+                    useCORS: true,
+                    letterRendering: true
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'landscape'
+                }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all form data?')) {
+                const editables = document.querySelectorAll('[contenteditable="true"]');
+                editables.forEach(el => {
+                    el.textContent = '';
+                });
+            }
+        }
+
+        // Auto-calculate functionality for numerical fields
+        document.addEventListener('input', function (e) {
+            if (e.target.contentEditable === 'true' && e.target.closest('td')) {
+                const row = e.target.closest('tr');
+                const cells = row.querySelectorAll('td[contenteditable="true"]');
+
+                if (cells.length >= 8) {
+                    const avgCell = cells[4]; // Column E - Average Monthly Consumption
+                    const stockCell = cells[5]; // Column F - Stock Balance
+                    const extraCell = cells[6]; // Column G - 2 more month Extra
+                    const extra2Cell = cells[7]; // Column H - 10% extra
+                    const requestedCell = cells[8]; // Column I - Request Amount
+
+                    // Auto-calculate if values are present
+                    const E = parseFloat(avgCell.textContent) || 0;
+                    const F = parseFloat(stockCell.textContent) || 0;
+
+                    if (e.target === avgCell) {
+                        // Calculate H = E * 0.1 (10% extra)
+                        const H = E * 0.1;
+                        // Calculate G = (H / 6) * 2 (Col G = Col H/6 * 2)
+                        const G = (H / 6) * 2;
+                        // Calculate I = E + G + H - F (Request Amount)
+                        const I = E + G + H - F;
+
+                        extraCell.textContent = G.toFixed(2);
+                        extra2Cell.textContent = H.toFixed(1);
+                        requestedCell.textContent = Math.max(0, I).toFixed(0);
+                    } else if (e.target === stockCell) {
+                        const G = parseFloat(extraCell.textContent) || 0;
+                        const H = parseFloat(extra2Cell.textContent) || 0;
+                        const I = E + G + H - F;
+
+                        requestedCell.textContent = Math.max(0, I).toFixed(0);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
