@@ -24,20 +24,28 @@
 
         header {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
             background-color: #f8f9fa;
             border-bottom: 1px solid #ddd;
             position: relative;
+            padding: 10px 0;
         }
 
         header img {
             height: 40px;
         }
 
+        header nav {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+
         nav {
             display: flex;
-            gap: 30px;
+            gap: 100px;
         }
 
         nav a {
@@ -45,10 +53,13 @@
             color: #333;
             font-weight: 600;
             transition: color 0.3s ease;
+            font-size: 20px;
         }
 
         nav a:hover {
             color: #007BFF;
+            font-size: 1.2em;
+            transition: opacity 3s ease, transform 3s ease;
         }
 
         .menu-toggle {
@@ -64,28 +75,45 @@
         }
 
         .mobile-nav {
-            display: none;
+            display: flex;
             flex-direction: column;
             gap: 10px;
-            text-decoration: none;
             background: #fff;
             position: absolute;
             top: 60px;
             right: 20px;
-            padding: 15px;
+            padding: 20px 50px;
             border: 1px solid #ccc;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             opacity: 0;
-            transform: scale(0.9);
-            transition: opacity 2s ease, transform 2s ease;
+            transform: translateY(-20px);
+            /* transition: opacity 2s ease, transform 2s ease; */
             z-index: 999;
+            pointer-events: none;
+        }
+
+        .mobile-nav a {
+            text-decoration: none;
+            color: #da2020;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            padding: 5px 0;
+            text-align: right;
+        }
+
+        .mobile-nav a:hover {
+            color: #e5eeee;
+            background-color: rgb(65, 96, 99);
+            border: 1px orange solid;
+            border-radius: 5px;
+            padding: 10px 10px;
         }
 
         .mobile-nav.show {
-            display: flex;
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(0);
+            pointer-events: auto;
         }
 
         main {
@@ -111,6 +139,7 @@
         p {
             text-align: left;
             line-height: 2rem;
+            font-size: 20px;
         }
 
         footer {
@@ -122,6 +151,10 @@
         }
 
         @media (max-width: 500px) {
+            header {
+                justify-content: space-between;
+            }
+
             nav.desktop {
                 display: none;
             }
@@ -131,7 +164,14 @@
             }
 
             .main-container {
-                margin: 0 5%;
+                margin: 0 2px;
+            }
+
+            body {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+                margin: 0 1%;
             }
         }
     </style>
@@ -139,12 +179,12 @@
 
 <body>
     <header>
-        <img src="KD LogoK.png" alt="Logo" />
+        <img src="KD LogoK.jpg" alt="Logo" />
         <nav class="desktop">
             <a href="quarter.html">Three Months</a>
             <a href="bi-annual.html">Six Months</a>
             <a href="formula.html">Formula</a>
-            <a href="#form">Form</a>
+            <a href="form.html">Form</a>
         </nav>
         <button class="menu-toggle" onclick="toggleMenu()">
             <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -156,22 +196,26 @@
             <a href="quarter.html">Three Months</a>
             <a href="bi-annual.html">Six Months</a>
             <a href="formula.html">Formula</a>
-            <a href="#form">Form</a>
+            <a href="form.html">Form</a>
         </div>
     </header>
 
     <main>
         <div class="main-container">
-            <h1>Welcome to Home Page</h1>
-            <img src="KD LogoK.png" alt="Dashboard Overview" />
+            <h1>KDHW Medicine Request Tool</h1>
+            <img src="KD LogoK.jpg" alt="Dashboard Overview" />
             <p>
-               စမ်းသပ်ရန်လုပ်ထားတာဖြစ်သည်။
+                KDHW Pharmacy Management Medicine Request အတွက်လုပ်ထားတာဖြစ်သည်။ သုံးလတစ်ကြိမ်ဖြစ်စေ၊
+                ခြောက်လတစ်ကြိမ်ဖြစ်စေ၊ လွန်ခဲ့တဲ့လအသုံးစာရေးအားလုံးပေါင်း (သုံးလအတွက်ဆို လွန်ခဲ့တဲ့သုံးလအသုံး
+                စာရေးစုစုပေါင်း၊ ခြောက်လအတွက်မှာလိုလျှင် လွန်ခဲ့တဲ့ခြောက်လအသုံးစာရေးစုစုပေါင်း စသဖြင့်)
+                ကွက်လပ်ထဲမှာရိုက်ထည့်ရုံပါ။ နောက်တစ်ကွက်ကယခုဆေးလက်ကျန်ပမာဏကိုရိုက်ထည့်ပြီး၊ နောက်ဆုံးအဖြေသည်၊ တကယ့်
+                မှာယူရမယ့်ပမာဏဖြစ်သည်။ ဒီပုံသေနည်းသည်၊ တို့အဖွဲ့ခေါင်းဆောင်အတည်ပြုထားတဲ့ပုံသေဖြစ်သည်။
             </p>
         </div>
     </main>
 
     <footer>
-        &copy; 2025 Your Organization. All rights reserved.
+        &copy; 2025 KDHW Pharmacy - Mr.Dtacer Lin. All rights reserved.
     </footer>
 
     <script>
